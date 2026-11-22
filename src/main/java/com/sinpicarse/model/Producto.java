@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "PRODUCTO")
+@Table(name = "producto")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,6 +27,7 @@ public class Producto {
     @Column(nullable = false)
     private Integer stock;
 
+    @Column(columnDefinition = "TEXT")
     private String imagen;
 
     @ManyToOne(fetch = FetchType.EAGER)
