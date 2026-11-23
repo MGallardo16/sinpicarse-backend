@@ -31,25 +31,32 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
-            .headers(headers -> headers.frameOptions(frame -> frame.disable())) // <--- NUEVO: Permite visualizar la consola H2
+            .headers(headers -> headers.frameOptions(frame -> frame.disable())) // Permite visualizar la consola H2
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // Rutas públicas (Auth, Swagger, H2 Console y lectura de tienda)
+                // Rutas públicas (Auth, Swagger, H2 Console, lectura de tienda/blogs y envío de contacto)
                 .requestMatchers("/api/v1/auth/**").permitAll()
                 .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
-                .requestMatchers("/h2-console/**").permitAll() // <--- NUEVO: Libera el acceso a /h2-console
-                .requestMatchers(HttpMethod.GET, "/api/v1/productos/**", "/api/v1/categorias/**").permitAll()
+                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/error").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/productos/**", "/api/v1/categorias/**", "/api/v1/blogs/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/v1/mensajes-contacto").permitAll()
 
                 // Boletas: Cualquier usuario logueado puede comprar (POST)
                 .requestMatchers(HttpMethod.POST, "/api/v1/boletas").authenticated()
                 // Boletas: Solo ADMIN y VENDEDOR pueden listar/ver todas las órdenes (GET)
                 .requestMatchers(HttpMethod.GET, "/api/v1/boletas/**").hasAnyRole("ADMIN", "VENDEDOR")
 
-                // Gestión de Productos y Categorías: Solo ADMIN puede crear, editar o eliminar
-                .requestMatchers(HttpMethod.POST, "/api/v1/productos/**", "/api/v1/categorias/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/api/v1/productos/**", "/api/v1/categorias/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/v1/productos/**", "/api/v1/categorias/**").hasRole("ADMIN")
+                // Reportes: ADMIN y VENDEDOR pueden crear; solo ADMIN puede listar/ver/eliminar
+                .requestMatchers(HttpMethod.POST, "/api/v1/reportes").hasAnyRole("ADMIN", "VENDEDOR")
+                .requestMatchers("/api/v1/reportes/**").hasRole("ADMIN")
+
+                // Gestión de Productos, Categorías, Blogs y Mensajes de Contacto: Solo ADMIN
+                .requestMatchers(HttpMethod.POST, "/api/v1/productos/**", "/api/v1/categorias/**", "/api/v1/blogs/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/v1/productos/**", "/api/v1/categorias/**", "/api/v1/blogs/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/v1/productos/**", "/api/v1/categorias/**", "/api/v1/blogs/**").hasRole("ADMIN")
+                .requestMatchers("/api/v1/mensajes-contacto/**").hasRole("ADMIN")
 
                 // Gestión de Usuarios y Administradores: Exclusivo ADMIN
                 .requestMatchers("/api/v1/usuarios/**").hasRole("ADMIN")
