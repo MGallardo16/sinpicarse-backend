@@ -16,7 +16,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/boletas")
 @RequiredArgsConstructor
-@Tag(name = "4. Boletas / Órdenes", description = "Generación de compras y consulta de órdenes")
+@Tag(name = "Boletas / Órdenes", description = "Generación de compras y consulta de órdenes")
 public class BoletaController {
 
     private final BoletaService boletaService;

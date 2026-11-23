@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/categorias")
 @RequiredArgsConstructor
-@Tag(name = "2. Categorías", description = "Gestión de categorías de juegos de mesa")
+@Tag(name = "Categorías", description = "Gestión de categorías de juegos de mesa")
 public class CategoriaController {
 
     private final CategoriaService categoriaService;

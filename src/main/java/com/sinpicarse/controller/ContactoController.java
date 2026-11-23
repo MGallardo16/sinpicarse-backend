@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/mensajes-contacto")
 @RequiredArgsConstructor
-@Tag(name = "6. Mensajes de Contacto", description = "Recepción y gestión de mensajes del formulario de contacto")
+@Tag(name = "Mensajes de Contacto", description = "Recepción y gestión de mensajes del formulario de contacto")
 public class ContactoController {
 
     private final ContactoService mensajeContactoService;

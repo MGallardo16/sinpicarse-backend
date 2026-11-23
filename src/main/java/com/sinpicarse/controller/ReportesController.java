@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/reportes")
 @RequiredArgsConstructor
-@Tag(name = "7. Reportes", description = "Gestión de reportes internos y del sistema")
+@Tag(name = "Reportes", description = "Gestión de reportes internos y del sistema")
 public class ReportesController {
 
     private final ReportesService reporteService;

@@ -16,7 +16,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/usuarios")
 @RequiredArgsConstructor
-@Tag(name = "5. Usuarios y Administradores", description = "Gestión de cuentas del sistema (Solo ADMIN)")
+@Tag(name = "Usuarios y Administradores", description = "Gestión de cuentas del sistema (Solo ADMIN)")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
